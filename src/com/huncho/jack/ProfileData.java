@@ -6,6 +6,7 @@ import java.util.ArrayList;
 public class ProfileData {
     private String firstName;
     private String lastName;
+    private String gender;
     private LocalDate dateOfBirth;
     private Integer age;
     private Integer weight;
@@ -39,6 +40,14 @@ public class ProfileData {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 
     public LocalDate getDateOfBirth() {
