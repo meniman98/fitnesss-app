@@ -1,7 +1,10 @@
 package com.huncho.jack;
 
+import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class ProfileData {
     private String firstName;
@@ -17,13 +20,14 @@ public class ProfileData {
     private double rhr;
     private Integer choice;
     private String resultBmi;
-
-    private ArrayList<String> deviceList = new ArrayList<>();
+    HashMap<Integer, String> deviceList = new HashMap<Integer, String>();
+    private String deviceName;
 
     public ProfileData() {
-        deviceList.add("Desktop");
-        deviceList.add("Smartphone");
-        deviceList.add("Smartwatch");
+        deviceList.put(1, "Desktop");
+        deviceList.put(2, "Smartphone");
+        deviceList.put(3, "Smartwatch");
+
     }
 
     public String getFirstName() {
@@ -130,11 +134,39 @@ public class ProfileData {
         this.resultBmi = resultBmi;
     }
 
-    public ArrayList<String> getDeviceList() {
+    public HashMap<Integer, String> getDeviceList() {
         return deviceList;
     }
 
-    public void setDeviceList(ArrayList<String> deviceList) {
+    public void setDeviceList(HashMap<Integer, String> deviceList) {
         this.deviceList = deviceList;
+    }
+
+    public String getDeviceName() {
+        return deviceName;
+    }
+
+    public void setDeviceName(String deviceName) {
+        this.deviceName = deviceName;
+    }
+
+    @Override
+    public String toString() {
+        return "ProfileData: " +
+                "FirstName='" + firstName + "\n" +
+                "LastName='" + lastName + "\n" +
+                "Gender='" + gender + "\n" +
+                "Date of birth=" + dateOfBirth + "\n" +
+                "Age=" + age + "\n" +
+                "Weight=" + weight + "\n" +
+                "Height=" + height + "\n" +
+                "BMI=" + bmi + "\n"  +
+                "vo2Max=" + vo2Max +" \n" +
+                "MHR=" + mhr + "\n" +
+                "RHR=" + rhr + "\n" +
+                "Choice=" + choice + "\n" +
+                "Result Bmi='" + resultBmi + "\n" +
+                "Device name='" + deviceName + "\n" +
+                "Device list=" + deviceList;
     }
 }
