@@ -1,6 +1,6 @@
-package com.huncho.jack;
+package com.huncho.jack.enums;
 
-enum Bmi {
+public enum Bmi {
     Underweight,
     NormalWeight,
     OverWeight,

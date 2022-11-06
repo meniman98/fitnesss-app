@@ -1,10 +1,7 @@
-package com.huncho.jack;
+package com.huncho.jack.model;
 
-import java.lang.reflect.Array;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class ProfileData {
     private String firstName;
@@ -21,7 +18,7 @@ public class ProfileData {
     private Integer choice;
     private String resultBmi;
     HashMap<Integer, String> deviceList = new HashMap<Integer, String>();
-    private String deviceName;
+    private String installationDevice;
 
     public ProfileData() {
         deviceList.put(1, "Desktop");
@@ -142,12 +139,12 @@ public class ProfileData {
         this.deviceList = deviceList;
     }
 
-    public String getDeviceName() {
-        return deviceName;
+    public String getInstallationDevice() {
+        return installationDevice;
     }
 
-    public void setDeviceName(String deviceName) {
-        this.deviceName = deviceName;
+    public void setInstallationDevice(String installationDevice) {
+        this.installationDevice = installationDevice;
     }
 
     @Override
@@ -166,7 +163,7 @@ public class ProfileData {
                 "RHR=" + rhr + "\n" +
                 "Choice=" + choice + "\n" +
                 "Result Bmi='" + resultBmi + "\n" +
-                "Device name='" + deviceName + "\n" +
+                "Device name='" + installationDevice + "\n" +
                 "Device list=" + deviceList;
     }
 }
