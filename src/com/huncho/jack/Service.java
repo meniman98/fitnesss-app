@@ -7,22 +7,20 @@ import com.huncho.jack.model.Coach;
 import com.huncho.jack.model.ProfileData;
 import com.huncho.jack.model.Running;
 
+import java.text.MessageFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 public class Service {
     //    dependencies
     ProfileData profileData = new ProfileData();
     Scanner scanner = new Scanner(System.in);
-    Coach john  = new Coach(1,"John", "Smith", CoachType.FITNESS_COACH);
-    Coach henry = new Coach( 2,"Henry", "Jones", CoachType.PERSONAL_TRAINER);
-    Coach emma = new Coach( 3,"Emma", "Brown", CoachType.PHYSIOTHERAPIST);
+    Coach john = new Coach(1, "John", "Smith", CoachType.FITNESS_COACH);
+    Coach henry = new Coach(2, "Henry", "Jones", CoachType.PERSONAL_TRAINER);
+    Coach emma = new Coach(3, "Emma", "Brown", CoachType.PHYSIOTHERAPIST);
 
-
+    // 1
     private void requestUserData() {
 //        Scanner initialisation
 
@@ -125,10 +123,7 @@ public class Service {
                 + "2. No"
         );
         int choice = scanner.nextInt();
-        while (choice != 1 && choice != 2) {
-            System.out.println("Please select 1 or 2");
-            choice = scanner.nextInt();
-        }
+        choice = validatedChoice(choice);
 
         if (choice == 2) {
 //            recursion
@@ -139,45 +134,50 @@ public class Service {
 
     }
 
+    // 2
     private void requestActivityDetails() {
-
+        showActivities();
+//        Show all coaches and select one
+        System.out.println("Select which coach you'd like to train with");
         List<Coach> coachArrayList = List.of(john, henry, emma);
-
-        for (Coach coach: coachArrayList) {
+        for (Coach coach : coachArrayList) {
             System.out.println(coach.toString());
         }
         checkIfNumber();
         int coachChoice = scanner.nextInt();
         Coach selectedCoach = coachArrayList.get(coachChoice - 1);
 
-        System.out.println("The following are available activities you may do: " + "\n" +
-                "1. Running" + "\n" +
-                "2. Cycling" + "\n" +
-                "3. Swimming" + "\n" +
-                "4. Weightlifting");
+        showActivities();
+//        select an activity
         System.out.println("Select one of the following activities");
         int activityChoice = scanner.nextInt();
 
 //        print activity
         switch (activityChoice) {
             case 1:
+//                Execute this code if running was selected
                 System.out.println("You've chosen running");
                 Running runningActivity = new Running(selectedCoach);
+                profileData.getChosenActivityList().add("Running");
                 askGeneralQuestions(runningActivity);
 
+//                Ask for pace
                 System.out.println("Please enter your pace per KM");
                 Double pace = scanner.nextDouble();
                 runningActivity.setPace(pace);
 
+//                Ask for distance
                 System.out.println("Please enter your distance per KM");
                 Double distance = scanner.nextDouble();
                 runningActivity.setDistance(distance);
 
-                System.out.println(runningActivity.toString());
+//                Print all activity details out
+                System.out.println(runningActivity + "\n" +
+                        "Duration " + runningActivity.getDuration() + "\n" +
+                        "Pace " + runningActivity.getPace());
                 break;
             case 2:
                 System.out.println("You've chosen cycling");
-                askGeneralQuestions();
                 break;
             case 3:
                 System.out.println("You've chosen swimming");
@@ -187,41 +187,30 @@ public class Service {
                 break;
         }
 
-        System.out.println("Select which coach you'd like to train with");
+//        You've chosen this coach
+        System.out.println("You've chosen " + "" + selectedCoach.toString());
 
-
-
-
-
-    }
-
-    private String calculateBmi() {
-        Integer height = profileData.getHeight();
-        Integer weight = profileData.getWeight();
-        double bmi = ((weight * 100 * 100) / (height * height));
-        profileData.setBmi(bmi);
-
-        String result = "";
-        if (bmi < 18.5) {
-            result = Bmi.Underweight.toString();
-        } else if (bmi >= 18.5 && bmi < 25) {
-            result = Bmi.NormalWeight.toString();
-        } else if (bmi >= 25 && bmi < 30) {
-            result = Bmi.OverWeight.toString();
-        } else {
-            result = Bmi.Obese.toString();
+//        Would you like to continue?
+        System.out.println("Would you like to choose another activity, or quit?" + "\n" +
+                "1. Choose another activity" + "\n" +
+                "2. Exit");
+        int choice = scanner.nextInt();
+        choice = validatedChoice(choice);
+//        Check for number 1 or 2
+        if (choice == 1) {
+//            recursion
+            requestActivityDetails();
         }
-        return result;
-    }
-
-    private void checkIfNumber() {
-        while (!scanner.hasNextInt()) {
-            System.out.println("That's not a number! Try again!");
-            scanner.next();
+        if (choice == 2) {
+            System.out.println("You have exited the program");
+            System.exit(0);
         }
+
     }
 
+    // 3
     private void askGeneralQuestions(Activity activity) {
+        scanner.nextLine();
         System.out.println("Please enter your activity description");
         String description = scanner.nextLine();
         activity.setDescription(description);
@@ -239,7 +228,12 @@ public class Service {
         activity.setDuration(duration);
 
         System.out.println("Please select the device you used");
-        for (int i = 1; i < activity.getDeviceList().size(); i++) {
+//        i = 1
+//        device size = 3
+//        1. 1 < 3
+//        2. 2 < 3
+//        3. 3 <= 3
+        for (int i = 1; i <= activity.getDeviceList().size(); i++) {
             System.out.println(i + " " + activity.getDeviceList().get(i));
         }
         int deviceChoice = scanner.nextInt();
@@ -247,9 +241,106 @@ public class Service {
 
     }
 
+    //    4
+    private void produceGraph() {
+        ArrayList<LocalDate> dateList = new ArrayList<>();
+        ArrayList<Double> weightList = new ArrayList<>();
+        LinkedHashMap<Double, String> bmiAndResultMap = new LinkedHashMap<>();
+//        For loop, 10 times
+        for (int i = 0; i < 3; i++) {
+            System.out.println(i+1 + ".Enter the date");
+            String dateInString = scanner.next();
 
+//        Create a formatter of 08-05-1998
+//        I want my date in this format dd-MM-yyyy
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+
+//        Format the string "08-05-1998" to a Localdate object 08-05-1998
+            LocalDate date = LocalDate.parse(dateInString, formatter);
+
+            System.out.println(i+1 + ".Enter your weight");
+            Double weight = scanner.nextDouble();
+
+            dateList.add(date);
+            weightList.add(weight);
+        }
+        System.out.println(dateList);
+        System.out.println(weightList);
+
+        for (Double weight : weightList) {
+//            Remember to remove, testing purposes
+            profileData.setHeight(170);
+            Double bmi = ((weight * 100 * 100) /
+                    (profileData.getHeight() * profileData.getHeight()));
+            String bmiKeyword = determineBmiKeyword(bmi);
+            bmiAndResultMap.put((double) Math.round(bmi), bmiKeyword);
+        }
+            System.out.println(bmiAndResultMap);
+
+        for (int i = 0; i < 3; i++) {
+//            Registration list
+            Double bmi = (Double) bmiAndResultMap.keySet().toArray()[i];
+            String format =  MessageFormat.format("{0} - {1} {2} {3}",
+                    dateList.get(i),
+                    weightList.get(i),
+                    bmi,
+                    bmiAndResultMap.get(bmi));
+            System.out.println(format);
+        }
+
+//                double bmi = ((weight * 100 * 100) / (height * height));
+    }
+
+    // main method
     public void initialise() {
 //        requestUserData();
-        requestActivityDetails();
+//        requestActivityDetails();
+        produceGraph();
+    }
+
+    //    Helper methods
+    private int validatedChoice(int choice) {
+        while (choice != 1 && choice != 2) {
+            System.out.println("Please select 1 or 2");
+            choice = scanner.nextInt();
+        }
+        return choice;
+    }
+
+    private void showActivities() {
+        System.out.println("The following are available activities you may do: " + "\n" +
+                "1. Running" + "\n" +
+                "2. Cycling" + "\n" +
+                "3. Swimming" + "\n" +
+                "4. Weightlifting");
+    }
+
+    private void checkIfNumber() {
+        while (!scanner.hasNextInt()) {
+            System.out.println("That's not a number! Try again!");
+            scanner.next();
+        }
+    }
+
+    private String calculateBmi() {
+        Integer height = profileData.getHeight();
+        Integer weight = profileData.getWeight();
+        double bmi = ((weight * 100 * 100) / (height * height));
+        profileData.setBmi(bmi);
+        return determineBmiKeyword(bmi);
+    }
+
+    private String determineBmiKeyword(double bmi) {
+        String result;
+        if (bmi < 18.5) {
+            result = Bmi.Underweight.toString();
+        } else if (bmi >= 18.5 && bmi < 25) {
+            result = Bmi.NormalWeight.toString();
+        } else if (bmi >= 25 && bmi < 30) {
+            result = Bmi.OverWeight.toString();
+        } else {
+            result = Bmi.Obese.toString();
+        }
+        return result;
     }
 }

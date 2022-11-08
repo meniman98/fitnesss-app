@@ -1,6 +1,7 @@
 package com.huncho.jack.model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ProfileData {
@@ -19,12 +20,14 @@ public class ProfileData {
     private String resultBmi;
     HashMap<Integer, String> deviceList = new HashMap<Integer, String>();
     private String installationDevice;
+    private ArrayList<String> chosenActivityList = new ArrayList<>();
 
+//    constructor
+//    Whenever an object is created, run this constructor method
     public ProfileData() {
         deviceList.put(1, "Desktop");
         deviceList.put(2, "Smartphone");
         deviceList.put(3, "Smartwatch");
-
     }
 
     public String getFirstName() {
@@ -145,6 +148,14 @@ public class ProfileData {
 
     public void setInstallationDevice(String installationDevice) {
         this.installationDevice = installationDevice;
+    }
+
+    public ArrayList<String> getChosenActivityList() {
+        return chosenActivityList;
+    }
+
+    public void setChosenActivityList(ArrayList<String> chosenActivityList) {
+        this.chosenActivityList = chosenActivityList;
     }
 
     @Override

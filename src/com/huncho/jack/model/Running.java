@@ -24,11 +24,5 @@ public class Running extends Activity{
         this.distance = distance;
     }
 
-    @Override
-    public String toString() {
-        return "Running{" +
-                "pace=" + pace +
-                ", distance=" + distance +
-                '}';
-    }
+
 }

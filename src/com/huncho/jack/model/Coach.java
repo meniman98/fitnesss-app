@@ -51,7 +51,7 @@ public class Coach {
     @Override
     public String toString() {
         return
-                id +
+                "Id: " + id +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", coachType=" + coachType;

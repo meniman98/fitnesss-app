@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 public class Activity {
     private String description;
-    private String activityType;
+
     private String date;
     private String time;
     private String duration;
@@ -28,13 +28,7 @@ public class Activity {
         this.description = description;
     }
 
-    public String getActivityType() {
-        return activityType;
-    }
 
-    public void setActivityType(String activityType) {
-        this.activityType = activityType;
-    }
 
     public String getDuration() {
         return duration;
@@ -88,7 +82,6 @@ public class Activity {
     public String toString() {
         return "Activity{" +
                 "description='" + description + '\'' +
-                ", activityType='" + activityType + '\'' +
                 ", date='" + date + '\'' +
                 ", time='" + time + '\'' +
                 ", duration='" + duration + '\'' +
