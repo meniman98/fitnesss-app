@@ -2,12 +2,8 @@ package com.huncho.jack;
 
 import com.huncho.jack.enums.Bmi;
 import com.huncho.jack.enums.CoachType;
-import com.huncho.jack.model.Activity;
-import com.huncho.jack.model.Coach;
-import com.huncho.jack.model.ProfileData;
-import com.huncho.jack.model.Running;
+import com.huncho.jack.model.*;
 
-import java.text.MessageFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -242,10 +238,8 @@ public class Service {
 
     //    4
     private void produceGraph() {
-        ArrayList<LocalDate> dateList = new ArrayList<>();
-        ArrayList<Double> weightList = new ArrayList<>();
-        HashMap<Double, String> bmiAndResultMap = new LinkedHashMap<>();
-//        For loop, 10 times
+        ArrayList<DataSubject> dataSubjectList = new ArrayList<>();
+//        For loop, 10 times or 3 times
         for (int i = 0; i < 3; i++) {
             System.out.println(i+1 + ".Enter the date");
             String dateInString = scanner.next();
@@ -260,39 +254,26 @@ public class Service {
             System.out.println(i+1 + ".Enter your weight");
             Double weight = scanner.nextDouble();
 
-            dateList.add(date);
-            weightList.add(weight);
-        }
-        System.out.println(dateList);
-        System.out.println(weightList);
-
-        for (Double weight : weightList) {
-//            Remember to remove
-            profileData.setHeight(170);
-            Double bmi = ((weight * 100 * 100) /
+            Double bmiNumber = ((weight * 100 * 100) /
                     (profileData.getHeight() * profileData.getHeight()));
-            String bmiKeyword = determineBmiKeyword(bmi);
-            bmiAndResultMap.put((double) Math.round(bmi), bmiKeyword);
-        }
-            System.out.println(bmiAndResultMap);
+            String bmiKeyword = determineBmiKeyword(bmiNumber);
+            Double bmiNumberRoundedUp = (double) Math.round(bmiNumber);
 
-        for (int i = 0; i < 3; i++) {
-//            Registration list
-            Double bmi = (Double) bmiAndResultMap.keySet().toArray()[i];
-            String format =  MessageFormat.format("{0} - {1} {2} {3}",
-                    dateList.get(i),
-                    weightList.get(i),
-                    bmi,
-                    bmiAndResultMap.get(bmi));
-            System.out.println(format);
+            DataSubject dataSubject = new DataSubject(date, weight, bmiNumberRoundedUp, bmiKeyword);
+            dataSubjectList.add(dataSubject);
         }
+
+        for (DataSubject dataSubject : dataSubjectList) {
+            System.out.println(dataSubject);
+        }
+
 
     }
 
     // main method
     public void initialise() {
-//        requestUserData();
-//        requestActivityDetails();
+        requestUserData();
+        requestActivityDetails();
         produceGraph();
     }
 

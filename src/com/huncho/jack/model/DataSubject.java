@@ -1,5 +1,6 @@
 package com.huncho.jack.model;
 
+import java.text.MessageFormat;
 import java.time.LocalDate;
 
 public class DataSubject {
@@ -7,6 +8,15 @@ public class DataSubject {
     Double weight;
     Double bmiNumber;
     String bmiKeyword;
+
+    public DataSubject(LocalDate date, Double weight, Double bmiNumber, String bmiKeyword) {
+        this.date = date;
+        this.weight = weight;
+        this.bmiNumber = bmiNumber;
+        this.bmiKeyword = bmiKeyword;
+    }
+
+    public DataSubject() {}
 
     public LocalDate getDate() {
         return date;
@@ -42,11 +52,10 @@ public class DataSubject {
 
     @Override
     public String toString() {
-        return "DataSubject{" +
-                "date=" + date +
-                ", weight=" + weight +
-                ", bmiNumber=" + bmiNumber +
-                ", bmiKeyword='" + bmiKeyword + '\'' +
-                '}';
+        return MessageFormat.format("{0} - {1} {2} {3}",
+                date,
+                weight,
+                bmiNumber,
+                bmiKeyword);
     }
 }
