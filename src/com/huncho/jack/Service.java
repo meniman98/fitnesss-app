@@ -191,9 +191,9 @@ public class Service {
         System.out.println("You've chosen " + "" + selectedCoach.toString());
 
 //        Would you like to continue?
-        System.out.println("Would you like to choose another activity, or quit?" + "\n" +
-                "1. Choose another activity" + "\n" +
-                "2. Exit");
+        System.out.println("Would you like to choose another activity?" + "\n" +
+                "1. Yes, choose another activity" + "\n" +
+                "2. No, this is all");
         int choice = scanner.nextInt();
         choice = validatedChoice(choice);
 //        Check for number 1 or 2
@@ -202,8 +202,7 @@ public class Service {
             requestActivityDetails();
         }
         if (choice == 2) {
-            System.out.println("You have exited the program");
-            System.exit(0);
+            System.out.println("Next section will be the graph production");
         }
 
     }
@@ -245,7 +244,7 @@ public class Service {
     private void produceGraph() {
         ArrayList<LocalDate> dateList = new ArrayList<>();
         ArrayList<Double> weightList = new ArrayList<>();
-        LinkedHashMap<Double, String> bmiAndResultMap = new LinkedHashMap<>();
+        HashMap<Double, String> bmiAndResultMap = new LinkedHashMap<>();
 //        For loop, 10 times
         for (int i = 0; i < 3; i++) {
             System.out.println(i+1 + ".Enter the date");
@@ -268,7 +267,7 @@ public class Service {
         System.out.println(weightList);
 
         for (Double weight : weightList) {
-//            Remember to remove, testing purposes
+//            Remember to remove
             profileData.setHeight(170);
             Double bmi = ((weight * 100 * 100) /
                     (profileData.getHeight() * profileData.getHeight()));
