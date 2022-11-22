@@ -287,7 +287,6 @@ public class Service {
             System.out.println(format);
         }
 
-//                double bmi = ((weight * 100 * 100) / (height * height));
     }
 
     // main method
